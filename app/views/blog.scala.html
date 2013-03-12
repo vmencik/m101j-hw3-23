@@ -1,0 +1,43 @@
+@(maybeUsername: Option[String], posts: Seq[com.mongodb.DBObject])
+@import com.mongodb.casbah.Imports._
+@import java.util.Date
+@import java.text.DateFormat
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Blog</title>
+</head>
+<body>
+
+@userHeader(maybeUsername)
+
+<h1>My Blog</h1>
+
+@for(post <- posts) {
+    <h2><a href="/post/@post("permalink")">@post("title")</a></h2>
+    Posted @datetime(post.as[Date]("date")) <i>By @post("author")</i><br>
+    Comments:
+    <a href="/post/@post("permalink")">@size(Option(post.as[MongoDBList]("comments")))</a>
+    <hr>
+    @Html(post.as[String]("body"))
+    <p>
+
+    <p>
+        <em>Filed Under</em>:
+        @for(tag <- post.as[MongoDBList]("tags")) {
+          @tag
+        }
+    <p>
+}
+
+</body>
+</html>
+
+@datetime(date: Date) = {
+  @DateFormat.getDateTimeInstance().format(date)
+}
+
+@size[A](maybeCol: Option[Seq[A]]) = {
+  @((for(col <- maybeCol) yield col.size).getOrElse(0))
+}

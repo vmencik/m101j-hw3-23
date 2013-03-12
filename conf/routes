@@ -1,0 +1,17 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# The Blog
+GET     /                           controllers.BlogController.homePage()
+GET		/post/:permalink			controllers.BlogController.postDetail(permalink)
+GET		/signup						controllers.BlogController.showSignup()
+POST	/signup						controllers.BlogController.processSignup()
+GET		/newpost					controllers.BlogController.showNewPostForm()
+POST	/newpost					controllers.BlogController.processNewPost()
+GET		/welcome					controllers.BlogController.welcome()
+POST	/newcomment					controllers.BlogController.processNewComment()
+GET		/login						controllers.BlogController.showLogin()
+POST	/login						controllers.BlogController.processLogin()
+GET		/logout						controllers.BlogController.logout()
+GET		/post_not_found				controllers.BlogController.postNotFound()

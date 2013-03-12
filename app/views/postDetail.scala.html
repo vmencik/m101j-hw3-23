@@ -1,0 +1,61 @@
+@(maybeUsername: Option[String], post: com.mongodb.DBObject, comment: Comment = Comment())
+@import com.mongodb.casbah.Imports._
+@import java.util.Date
+@import java.text.DateFormat
+
+
+<!doctype HTML>
+<html>
+<head>
+    <title>
+        Blog Post
+    </title>
+</head>
+<body>
+@userHeader(maybeUsername)
+
+<a href="/">Blog Home</a><br><br>
+
+<h2>@post("title")</h2>
+Posted @datetime(post.as[Date]("date")) <i>By @post("author")</i><br>
+<hr>
+@Html(post.as[String]("body"))
+<p>
+    <em>Filed Under</em>:
+    @for(tag <- post.as[MongoDBList]("tags")) {
+      @tag
+    }
+<p>
+    Comments:
+<ul>
+	@for(comment @ (c: DBObject) <- post.as[MongoDBList]("comments")) {
+	  Author: @comment("author")<br>
+	  <br>
+      @comment("body")<br>
+      <hr>
+	}
+    
+    <h3>Add a comment</h3>
+
+    <form action="/newcomment" method="POST">
+        <input type="hidden" name="permalink" value="@post("permalink")">
+        @comment.errors<br>
+        <b>Name</b> (required)<br>
+        <input type="text" name="commentName" size="60" value="@comment.name"><br>
+        <b>Email</b> (optional)<br>
+        <input type="text" name="commentEmail" size="60" value="@comment.email.getOrElse("")"><br>
+        <b>Comment</b><br>
+        <textarea name="commentBody" cols="60" rows="10">@comment.body</textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+</ul>
+</body>
+</html>
+
+@datetime(date: Date) = {
+  @DateFormat.getDateTimeInstance().format(date)
+}
+
+@size[A](maybeCol: Option[Seq[A]]) = {
+  @((for(col <- maybeCol) yield col.size).getOrElse(0))
+}
