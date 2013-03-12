@@ -35,7 +35,7 @@ This project uses the [Cake Pattern](http://jonasboner.com/2008/10/06/real-world
 You don't actually need to understand the whole application, although I encourage you to dig into it.
 
 And if you look at the code, you will notice that this project does not properly separate the MVC layers.
-Passing MongoDB-specific objects create by the database driver (model) to templates (view) is not something
+Passing MongoDB-specific objects created by the database driver (model) to templates (view) is not something
 you want to do in a real-world application. Fixing this design problem however, would require additional work
 and would introduce more differences from the original Java + Spark version. 
 
