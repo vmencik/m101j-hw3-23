@@ -61,7 +61,7 @@ trait MongoBlogPostDAOComponent extends BlogPostDAOComponent {
       val post = MongoDBObject.newBuilder
       // XXX HW 3.2, Work Here
       // Remember that a valid post has the following keys:
-      // author, body, permalink, tags, comments, date
+      // author, body, permalink, tags, comments, date,title
       //
       // A few hints:
       // - Don't forget to create an empty list of comments
